@@ -17,8 +17,24 @@ import java.net.URL;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Created by samantha on 30/12/2016.
- */
+ Reference: https://www.youtube.com/watch?v=2VKyW1lkbq0
+
+ http://www.seleniumhq.org/download/
+
+ Download:
+ Appium: http://appium.io/
+ Android SDK: https://developer.android.com/studio/index.html#Other
+
+ Appium Setting:
+ Android icon:
+ - App Path - find an apk for launching
+ - Device Name - must make up one, also used in the following prog
+ - Platform version - follow the device connected
+ Adviced > Android sdk path e.g ~~~/Library/Android/sdk
+
+ Launch -> Inspect: see if app can be launched
+ **/
+
 public class FirstAppiumTest{
     AppiumDriver driver;
 
