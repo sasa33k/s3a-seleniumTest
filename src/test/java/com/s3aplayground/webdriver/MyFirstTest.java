@@ -11,9 +11,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Created by samantha on 30/12/2016.
- */
+
 public class MyFirstTest {
 
     @Test
