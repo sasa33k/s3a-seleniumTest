@@ -14,14 +14,13 @@ package com.s3aplayground.appium;
         import java.util.Date;
         import java.util.concurrent.TimeUnit;
         import org.apache.commons.io.FileUtils;
+        import org.junit.After;
+        import org.junit.Before;
+        import org.junit.Test;
         import org.openqa.selenium.*;
         import org.openqa.selenium.remote.DesiredCapabilities;
         import org.openqa.selenium.support.ui.ExpectedConditions;
         import org.openqa.selenium.support.ui.WebDriverWait;
-        import org.testng.annotations.AfterTest;
-        import org.testng.annotations.BeforeTest;
-        import org.testng.annotations.Test;
-
         import static org.junit.Assert.assertEquals;
 
 public class CaptureScreenShot {
@@ -30,7 +29,7 @@ public class CaptureScreenShot {
     String destDir;
     DateFormat dateFormat;
 
-    @BeforeTest
+    @Before
     public void setUp() throws Exception {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("deviceName", "AndroidTestDevice");
@@ -43,8 +42,14 @@ public class CaptureScreenShot {
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
     }
 
+
+    @After
+    public void End() {
+        driver.quit();
+    }
+
     @Test
-    public void ScrollToTab() {
+    public void loginError() {
         // Scroll till element which contains "Views" text If It Is not visible on screen.
         //driver.scrollTo("Views");
         // Click on Views.
@@ -52,6 +57,10 @@ public class CaptureScreenShot {
         // Scroll till element which contains "Tabs" text If It Is not visible on screen.
         //driver.scrollTo("Tabs");
         //Call takeScreenShot() function to capture screenshot of android screen.
+        WebElement acceptBtn = (new WebDriverWait(driver,60))
+                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.widget.LinearLayout[1]/android.widget.LinearLayout[3]/android.widget.LinearLayout[1]/android.widget.Button[2]")));
+        acceptBtn.click();
+
         WebElement loginBtn = (new WebDriverWait(driver,60))
                 .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.webkit.WebView[1]/android.view.View[1]/android.view.View[4]")));
         loginBtn.click();
@@ -59,7 +68,45 @@ public class CaptureScreenShot {
         WebElement errorMessage = (new WebDriverWait(driver,60))
                 .until(ExpectedConditions.presenceOfElementLocated(By.id("android:id/message")));
         takeScreenShot();
-        assertEquals(errorMessage.getText(),"你的登入帳號與密碼不符");
+        assertEquals(errorMessage.getText(),"ID dan password anda tidak sesuai.");
+
+
+        WebElement errorMsgBtn = (new WebDriverWait(driver,60))
+                .until(ExpectedConditions.presenceOfElementLocated(By.id("android:id/button1")));
+        errorMsgBtn.click();
+
+    }
+
+
+    @Test
+    public void loginSuccess() {
+
+        WebElement acceptBtn = (new WebDriverWait(driver,60))
+                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.widget.LinearLayout[1]/android.widget.LinearLayout[3]/android.widget.LinearLayout[1]/android.widget.Button[2]")));
+        acceptBtn.click();
+
+
+        WebElement loginBtn = (new WebDriverWait(driver,60))
+                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.webkit.WebView[1]/android.view.View[1]/android.view.View[4]")));
+
+
+        //driver.findElement(By.xpath("//android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.webkit.WebView[1]/android.view.View[1]/android.view.View[3]/android.widget.EditText[1]")).click();
+        driver.findElement(By.xpath("//android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.webkit.WebView[1]/android.view.View[1]/android.view.View[3]/android.widget.EditText[1]"))
+                .sendKeys("A10000"); //cannot submit capital letter yet
+        //driver.findElement(By.xpath("//android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.webkit.WebView[1]/android.view.View[1]/android.view.View[3]/android.widget.EditText[2]")).click();
+        driver.findElement(By.xpath("//android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.webkit.WebView[1]/android.view.View[1]/android.view.View[3]/android.widget.EditText[2]"))
+                .sendKeys("1234");
+        /*
+        driver.findElement(By.name("Agent ID")).sendKeys("10000003123");
+        driver.findElement(By.name("Password")).sendKeys("Arba1234");
+        */
+        takeScreenShot();
+        loginBtn.click();
+        WebElement errorMessage = (new WebDriverWait(driver,60))
+                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.widget.FrameLayout[1]/android.webkit.WebView[1]/android.view.View[1]/android.view.View[2]/android.view.View[1]/android.view.View[1]")));
+        takeScreenShot();
+        assertEquals(errorMessage.getText(),"Sekarang");
+
 
 
     }
@@ -84,8 +131,4 @@ public class CaptureScreenShot {
         }
     }
 
-    @AfterTest
-    public void End() {
-        driver.quit();
-    }
 }
